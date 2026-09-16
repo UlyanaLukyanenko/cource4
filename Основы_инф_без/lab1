@@ -1,0 +1,87 @@
+import random
+alphav = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ#"
+s = input().upper()
+s = s.replace(" ", "#")
+sdv= int(input())
+zash_str = ""
+for i in s:
+    if i in alphav:
+        index = alphav.index(i)
+        new_index = (index + sdv) % len(alphav)
+        zash_str += alphav[new_index]
+    else:
+        zash_str += i
+rash_str = ""
+for i in zash_str:
+    if i in alphav:
+        index = alphav.index(i)
+        new_index = (index - sdv) % len(alphav)
+        rash_str += alphav[new_index]
+    else:
+        rash_str += i
+print("Шифр Цезаря:", zash_str)
+print(rash_str.replace("#", " "))
+
+s1 = s
+if len(s1) % 2 != 0:
+    s1 += "*"
+
+indexes = list(range(len(s1)))
+random.shuffle(indexes)
+for i in range(len(s1)):
+    print(i, end=" ")
+print()
+for i in range(len(s1)):
+    print(s1[i], end=" ")
+print("\n")
+for i in range(len(indexes)):
+    print(indexes[i], end=" ")
+print()
+for i in range(len(indexes)):
+    print(s1[indexes[i]], end=" ")
+print("\n")
+t = ""
+for index in indexes:
+    t += s1[index]
+print(t)
+sr = len(t) // 2
+first = t[:sr]
+second = t[sr:]
+itog = first + second
+t2 = itog[:sr] + itog[sr:]
+itog_rash = [""] * len(s1)
+for i in range(len(indexes)):
+    index = indexes[i]
+    itog_rash[index] = t2[i]
+itog_rash = "".join(itog_rash)
+itog_rash = itog_rash.replace("*", "")
+
+print("\nШифр Камасутра:", itog)
+print(itog_rash.replace("#", " "))
+
+
+alph_sp = list(alphav)
+random.shuffle(alph_sp)
+t3 = "".join(alph_sp)
+zash_2 = ""
+for i in s:
+    if i in alphav:
+        index = alphav.index(i)
+        zash_2 += t3[index]
+    else:
+        zash_2 += i
+rash_2 = ""
+for i in zash_2:
+    if i in t3:
+        index = t3.index(i)
+        rash_2 += alphav[index]
+    else:
+        rash_2 += i
+print("Старый алфавит: ", alphav)
+print("Новый алфавит:  ", t3)
+
+print("Шифр случайной замены:", zash_2)
+print(rash_2.replace("#", " "))
+
+
+
