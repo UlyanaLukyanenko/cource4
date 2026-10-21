@@ -1,0 +1,46 @@
+import random
+alph = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ#"
+
+spisok = list(alph)
+random.shuffle(spisok)
+peremesh = "".join(spisok)
+print(peremesh)
+sr = len(peremesh) // 2
+first = peremesh[:sr]
+second = peremesh[sr:]
+
+print("Первая половина: ", first)
+print("Вторая половина: ", second)
+print("-" * 30)
+
+text = input("ФИО: ").upper().replace(" ", "#")
+
+if len(text) % 2 != 0:
+    text += "*"
+
+shifr = ""
+for char in text:
+    if char in first:
+        shifr += second[first.index(char)]
+    elif char in second:
+        shifr += first[second.index(char)]
+    elif char == " ":
+        shifr += "#"
+    else:
+        shifr += char
+
+print("Зашифрованный текст:", shifr)
+
+rashifr = ""
+for char in shifr:
+    if char in first:
+        rashifr += second[first.index(char)]
+    elif char in second:
+        rashifr += first[second.index(char)]
+    elif char == "#":
+        rashifr += " "
+    else:
+        rashifr += char
+
+rashifr = rashifr.replace("*", "")
+print("Расшифрованный текст:", rashifr.replace("#"," "))
