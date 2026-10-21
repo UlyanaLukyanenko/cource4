@@ -1,170 +1,176 @@
-B_podst_alg = {
-    (1, 0): 4,  (1, 1): 10, (1, 2): 9,  (1, 3): 2,  (1, 4): 13, (1, 5): 8,
-    (1, 6): 0,  (1, 7): 14, (1, 8): 6,  (1, 9): 11, (1, 10): 1, (1, 11): 12,
-    (1, 12): 7, (1, 13): 15, (1, 14): 5, (1, 15): 3,
-
-    (2, 0): 14, (2, 1): 11, (2, 2): 4,  (2, 3): 12, (2, 4): 6,  (2, 5): 13,
-    (2, 6): 15, (2, 7): 10, (2, 8): 2,  (2, 9): 3,  (2, 10): 8, (2, 11): 1,
-    (2, 12): 0, (2, 13): 7, (2, 14): 5, (2, 15): 9,
-
-    (3, 0): 5,  (3, 1): 8,  (3, 2): 1,  (3, 3): 13, (3, 4): 10, (3, 5): 3,
-    (3, 6): 4,  (3, 7): 2,  (3, 8): 14, (3, 9): 15, (3, 10): 12, (3, 11): 7,
-    (3, 12): 6, (3, 13): 0, (3, 14): 9, (3, 15): 11,
-
-    (4, 0): 7,  (4, 1): 13, (4, 2): 10, (4, 3): 1,  (4, 4): 0,  (4, 5): 8,
-    (4, 6): 9,  (4, 7): 15, (4, 8): 14, (4, 9): 4,  (4, 10): 6, (4, 11): 12,
-    (4, 12): 11, (4, 13): 2, (4, 14): 5, (4, 15): 3,
-
-    (5, 0): 6,  (5, 1): 12, (5, 2): 7,  (5, 3): 1,  (5, 4): 5,  (5, 5): 15,
-    (5, 6): 13, (5, 7): 8,  (5, 8): 4,  (5, 9): 10, (5, 10): 9, (5, 11): 14,
-    (5, 12): 0, (5, 13): 3, (5, 14): 11, (5, 15): 2,
-
-    (6, 0): 4,  (6, 1): 11, (6, 2): 10, (6, 3): 0,  (6, 4): 7,  (6, 5): 2,
-    (6, 6): 1,  (6, 7): 13, (6, 8): 3,  (6, 9): 6,  (6, 10): 8, (6, 11): 5,
-    (6, 12): 9, (6, 13): 12, (6, 14): 15, (6, 15): 14,
-
-    (7, 0): 13, (7, 1): 11, (7, 2): 4,  (7, 3): 1,  (7, 4): 3,  (7, 5): 15,
-    (7, 6): 5,  (7, 7): 9,  (7, 8): 0,  (7, 9): 10, (7, 10): 14, (7, 11): 7,
-    (7, 12): 6, (7, 13): 8, (7, 14): 2, (7, 15): 12,
-
-    (8, 0): 1,  (8, 1): 15, (8, 2): 13, (8, 3): 0,  (8, 4): 5,  (8, 5): 7,
-    (8, 6): 10, (8, 7): 4,  (8, 8): 9,  (8, 9): 2,  (8, 10): 3, (8, 11): 14,
-    (8, 12): 6, (8, 13): 11, (8, 14): 8, (8, 15): 12,
-}
-
-
 def per_dec_sist(ch):
     table = {
-        'А': 192, 'Б': 193, 'В': 194, 'Г': 195, 'Д': 196, 'Е': 197, 'Ж': 198,
-        'З': 199, 'И': 200, 'Й': 201, 'К': 202, 'Л': 203, 'М': 204, 'Н': 205,
-        'О': 206, 'П': 207, 'Р': 208, 'С': 209, 'Т': 210, 'У': 211, 'Ф': 212,
-        'Х': 213, 'Ц': 214, 'Ч': 215, 'Ш': 216, 'Щ': 217, 'Ъ': 218, 'Ы': 219,
-        'Ь': 220, 'Э': 221, 'Ю': 222, 'Я': 223,
-        'а': 224, 'б': 225, 'в': 226, 'г': 227, 'д': 228, 'е': 229, 'ж': 230,
-        'з': 231, 'и': 232, 'й': 233, 'к': 234, 'л': 235, 'м': 236, 'н': 237,
-        'о': 238, 'п': 239, 'р': 240, 'с': 241, 'т': 242, 'у': 243, 'ф': 244,
-        'х': 245, 'ц': 246, 'ч': 247, 'ш': 248, 'щ': 249, 'ъ': 250, 'ы': 251,
-        'ь': 252, 'э': 253, 'ю': 254, 'я': 255,
-        ' ': 32,
+        'А': '11000000', 'Б': '11000001',
+        'В': '11000010', 'Г': '11000011',
+        'Д': '11000100', 'Е': '11000101',
+        'Ж': '11000110', 'З': '11000111',
+        'И': '11001000', 'Й': '11001001',
+        'К': '11001010', 'Л': '11001011',
+        'М': '11001100', 'Н': '11001101',
+        'О': '11001110', 'П': '11001111',
+        'Р': '11010000', 'С': '11010001',
+        'Т': '11010010', 'У': '11010011',
+        'Ф': '11010100', 'Х': '11010101',
+        'Ц': '11010110', 'Ч': '11010111',
+        'Ш': '11011000', 'Щ': '11011001',
+        'Ъ': '11011010', 'Ы': '11011011',
+        'Ь': '11011100', 'Э': '11011101',
+        'Ю': '11011110', 'Я': '11011111',
+        ' ': '00100000'
     }
-    if ch not in table:
-        raise ValueError(f"Символ '{ch}' не найден в таблице кириллицы.")
-    return format(table[ch], '08b')
+
+    ch = ch.upper()
+    return table[ch]
 
 
-def perev_str_dv_posled(text, length):
-    result = ''
-    for i in text:
-        result += per_dec_sist(i)
-    if len(result) < length:
-        result = result.ljust(length, '0')
-    else:
-        result = result[:length]
+def perev_str_dv_posled(text):
+    return ''.join(per_dec_sist(ch) for ch in text)
+
+
+def rasdel_on_groups(binary_string, size=4):
+    return [
+        binary_string[i:i + size]
+        for i in range(0, len(binary_string), size)
+    ]
+
+S_BOX = [
+    [1, 13, 4, 6, 7, 5, 14, 4],
+    [15, 11, 11, 12, 13, 8, 11, 10],
+    [13, 4, 10, 7, 10, 1, 4, 9],
+    [0, 1, 0, 1, 1, 13, 12, 2],
+    [5, 3, 7, 5, 0, 10, 6, 13],
+    [7, 15, 2, 15, 8, 3, 13, 8],
+    [10, 5, 1, 13, 9, 4, 15, 0],
+    [4, 9, 13, 8, 15, 2, 10, 14],
+    [9, 0, 3, 4, 14, 14, 2, 6],
+    [2, 10, 6, 10, 4, 15, 3, 11],
+    [3, 14, 8, 9, 6, 12, 8, 1],
+    [14, 7, 5, 14, 12, 7, 1, 12],
+    [6, 6, 9, 0, 11, 6, 0, 7],
+    [11, 8, 12, 3, 2, 0, 7, 15],
+    [8, 2, 15, 11, 5, 9, 5, 5],
+    [12, 12, 14, 2, 3, 11, 9, 3]
+]
+
+
+def slozhenie_mod_2_32(a, b):
+    result = ""
+    carry = 0
+
+    for i in range(31, -1, -1):
+        bit_a = int(a[i])
+        bit_b = int(b[i])
+
+        summa = bit_a + bit_b + carry
+
+        result_bit = summa % 2
+        carry = summa // 2
+
+        result = str(result_bit) + result
     return result
 
 
-def dv_to_int(str):
-    return int(str, 2)
+def podstanovka(value):
+    result = ""
+
+    for i in range(8):
+        tetrada = value[i * 4:i * 4 + 4]
+        number = int(tetrada, 2)
+        column = i
+
+        new_number = S_BOX[number][column]
+        new_tetrada = format(new_number, "04b")
+
+        result += new_tetrada
+
+    return result
 
 
-def int_to_dv(num, length=32):
-    return format(num, f'0{length}b')
+def sdvig_vlevo_11(value):
+    return value[11:] + value[:11]
 
 
-def rasdel_on_groups(bin_str, size=4):
-    return [bin_str[i:i+size] for i in range(0, len(bin_str), size)]
+def xor(a, b):
+    result = ""
+
+    for i in range(len(a)):
+        if a[i] == b[i]:
+            result += "0"
+        else:
+            result += "1"
+
+    return result
 
 
-def sbox_substitution(bin_str):
+def pervyi_raund(L0, R0, X0):
 
-    groups = rasdel_on_groups(bin_str, 4)
-    result = []
-    for i, group in enumerate(groups):
-        node = 8 - i  # группа 0 -> узел 8, группа 7 -> узел 1
-        row = int(group, 2)
-        value = B_podst_alg[(node, row)]
-        result.append(format(value, '04b'))
-    return ''.join(result)
+    print("ГОСТ 28147-89")
+    print("=" * 55)
+    summa = slozhenie_mod_2_32(R0, X0)
 
+    print("\n1. Сложение R0 и X0 по модулю 2^32:")
+    print("R0:    ", " ".join(rasdel_on_groups(R0)))
+    print("X0:    ", " ".join(rasdel_on_groups(X0)))
+    print("Сумма: ", " ".join(rasdel_on_groups(summa)))
 
-def sdvig_left(str, col):
-    x = col % len(str)
-    return str[x:] + str[:x]
+    zamena = podstanovka(summa)
 
+    print("\n2. После подстановки:")
+    print(" ".join(rasdel_on_groups(zamena)))
+    sdvig = sdvig_vlevo_11(zamena)
 
-def xor_bin(a, b):
-    return ''.join('1' if x != y else '0' for x, y in zip(a, b))
+    print("\n3. После циклического сдвига на 11:")
+    print(" ".join(rasdel_on_groups(sdvig)))
+    R1 = xor(L0, sdvig)
+
+    print("\n4. f(R0,X0)+ LO")
+    print("L0:       ", " ".join(rasdel_on_groups(L0)))
+    print("Результат:", " ".join(rasdel_on_groups(R1)))
+
+    print("R1: ", " ".join(rasdel_on_groups(R1)))
+
+    return  R1
 
 
 def main():
-    print("ГОСТ 28147-89")
+    print("ГОСТ 28147-89 ")
 
-    # Ввод данных
-    fio = input().strip()
-    key_text = input().strip()
+    fio = input("Введите ФИО: ").strip().upper()
 
-    text_8 = fio[:8]
-    key_4 = key_text[:4]
+    full_text = fio + " КРИПТОГРАФИЯ"
+    block = full_text[:8]
+    key = full_text[8:12]
 
-    if len(text_8) < 8:
-        text_8 = text_8.ljust(8, ' ')
-    if len(key_4) < 4:
-        key_4 = key_4.ljust(4, ' ')
+    if len(block) != 8 or len(key) != 4:
+        print("Ошибка: недостаточно символов.")
+        return
 
-    print(f"\nИсходный текст: '{text_8}'")
-    print(f"Первый подключ X0: '{key_4}'")
+    print("\nИсходная строка:", full_text)
+    print("Первый блок:", block)
+    print("Первый подключ:", key)
+    text_bin = perev_str_dv_posled(block)
+    key_bin = perev_str_dv_posled(key)
 
-    text_bin = perev_str_dv_posled(text_8, 64)
-    key_bin = perev_str_dv_posled(key_4, 32)
+    print("\nДвоичное представление исходного блока:")
+    for ch in block:
+        print(f"{ch} -> {per_dec_sist(ch)}")
 
-    print(f"\nДвоичный вид текста:")
-    print(f"  {rasdel_on_groups(text_bin, 4)}")
-    print(f"\nДвоичный вид ключа X0:")
-    print(f"  {rasdel_on_groups(key_bin, 4)}")
+    print("\nДвоичное представление первого подключа:")
+    for ch in key:
+        print(f"{ch} -> {per_dec_sist(ch)}")
 
     L0 = text_bin[:32]
     R0 = text_bin[32:64]
+
     X0 = key_bin
 
-    print(f"\nL0 (32 бита): {rasdel_on_groups(L0, 4)}")
-    print(f"R0 (32 бита): {rasdel_on_groups(R0, 4)}")
-    print(f"X0 (32 бита): {rasdel_on_groups(X0, 4)}")
+    print("\nL0 (первые 32 бита):")
+    print(" ".join(rasdel_on_groups(L0)))
 
-    R0_int = dv_to_int(R0)
-    X0_int = dv_to_int(X0)
-    sum_int = (R0_int + X0_int) % (2 ** 32)
-    sum_bin = int_to_dv(sum_int, 32)
+    print("\nR0 (следующие 32 бита):")
+    print(" ".join(rasdel_on_groups(R0)))
 
-    print(f"\n1) Сложение R0 + X0")
-    print(f"   R0: {rasdel_on_groups(R0, 4)}")
-    print(f"   X0: {rasdel_on_groups(X0, 4)}")
-    print(f"   Сумма: {rasdel_on_groups(sum_bin, 4)}")
+    print("\nX0 (32 бита первого подключа):")
+    print(" ".join(rasdel_on_groups(X0)))
 
-
-    substituted = sbox_substitution(sum_bin)
-
-    print(f"\n2) Подстановка по таблице Приложения В:")
-    print(f"   Вход:  {rasdel_on_groups(sum_bin, 4)}")
-    print(f"   Выход: {rasdel_on_groups(substituted, 4)}")
-
-    shifted = sdvig_left(substituted, 11)
-
-    print(f"\n3) Циклический сдвиг на 11 бит влево:")
-    print(f"   Вход:  {rasdel_on_groups(substituted, 4)}")
-    print(f"   Выход: {rasdel_on_groups(shifted, 4)}")
-
-    f_result = shifted
-
-    print(f"\n   f(R0, X0) = {rasdel_on_groups(f_result, 4)}")
-
-    # II) R1 = f(R0, X0) XOR L0
-    R1 = xor_bin(f_result, L0)
-
-    print(f"\nII) Вычисление R1 = f(R0, X0) ⊕ L0:")
-    print(f"   L0:        {rasdel_on_groups(L0, 4)}")
-    print(f"   f(R0, X0): {rasdel_on_groups(f_result, 4)}")
-    print(f"   R1:        {rasdel_on_groups(R1, 4)}")
-
-
-if __name__ == "__main__":
-    main()
+    pervyi_raund(L0, R0, X0)
