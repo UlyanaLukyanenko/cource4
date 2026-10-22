@@ -1,0 +1,136 @@
+from math import gcd, isqrt
+ALPHABET = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+def found_poz_in_alph(letter):
+    letter = letter.upper()
+    return ALPHABET.index(letter) + 1
+def alg_evk(a, b):
+    if b == 0:
+        return a, 1, 0
+    g, x1, y1 = alg_evk(b, a % b)
+    return g, y1, x1 - (a // b) * y1
+def obratn_elem(a, modulus):
+    g, x, _ = alg_evk(a, modulus)
+    return x % modulus
+def table_power(base, exponent, modulus, title):
+    print("\n" + title)
+    print(f"Вычисляем {base}^{exponent} mod {modulus}")
+    a = base % modulus
+    i = exponent
+    result = 1
+    k = 1
+    while i > 0:
+        s = i % 2
+        if s == 1:
+            result = result * a % modulus
+        print(f"{k:>3} {a:>10} {i:>8} {s:>5} {result:>8}")
+        a = a * a % modulus
+        i //= 2
+        k += 1
+    print("Результат:", result)
+    return result
+def main():
+    fio = input("Введите ФИО: ").strip().upper()
+    parts = fio.split()
+    surname, name, patronymic = parts
+    p = int(input("Введите простое число p: "))
+    q = int(input("Введите простое число q: "))
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    d = 11
+    while d < phi and gcd(d, phi) != 1:
+        d += 1
+
+    if d >= phi:
+        print("Не удалось выбрать закрытый показатель d.")
+        return
+
+    e = obratn_elem(d, phi)
+    print("\nГенерация ключей RSA")
+    print(f"p = {p}")
+    print(f"q = {q}")
+    print(f"n = p * q = {n}")
+    print(f"φ(n) = (p - 1)(q - 1) = {phi}")
+    print(f"d = {d}")
+    print(f"e = {e}")
+    print(f"Открытый ключ: ({e}, {n})")
+    print(f"Закрытый ключ: ({d}, {n})")
+    print("Шифрование ФИО")
+    initials = surname[0] + name[0] + patronymic[0]
+    initial_numbers = [found_poz_in_alph(ch) for ch in initials]
+    print("ФИО:", fio)
+    print("Инициалы:", initials)
+    print("Числовые значения инициалов:", initial_numbers)
+    encrypted = []
+    decrypted = []
+    for letter, m in zip(initials, initial_numbers):
+        c = table_power(
+            m, e, n,
+            f"Шифрование буквы {letter}, M = {m}"
+        )
+        encrypted.append(c)
+        decoded = table_power(
+            c, d, n,
+            f"Расшифрование блока C = {c}"
+        )
+        decrypted.append(decoded)
+
+    decrypted_letters = ""
+    for value in decrypted:
+        if 1 <= value <= len(ALPHABET):
+            decrypted_letters += ALPHABET[value - 1]
+        else:
+            decrypted_letters += "?"
+
+    print("\nИсходные инициалы:", initials)
+    print("Зашифрованные инициалы:", encrypted)
+    print("Расшифрованные числа:", decrypted)
+    print("Расшифрованные инициалы:", decrypted_letters)
+    print("Расшифрование успешно:", decrypted_letters == initials)
+
+    print("Хеш-образ")
+
+    H0 = int(input("Введите H0: "))
+    H = H0
+
+    print("Фамилия:", surname)
+    print(f"H0 = {H0}, n = {n}")
+    print("Формула: H_i = (H_(i-1) + M_i)^2 mod n")
+    print(
+        f"{'Буква':>8} {'M_i':>6} {'H_prev':>10} "
+        f"{'Сумма':>8} {'Квадрат':>14} {'H_i':>8}"
+    )
+
+    for letter in surname:
+        m = found_poz_in_alph(letter)
+        previous = H
+        total = previous + m
+        square = total ** 2
+        H = square % n
+
+        print(
+            f"{letter:>8} {m:>6} {previous:>10} "
+            f"{total:>8} {square:>14} {H:>8}"
+        )
+
+    hash_value = H
+    print("\nХеш-образ фамилии:", hash_value)
+
+    print("ЭЦП")
+    signature = table_power(
+        hash_value, d, n,"Создание подписи:"
+    )
+
+    verified_hash = table_power(
+        signature, e, n,"Проверка подписи:"
+    )
+
+    print("Исходный хеш H =", hash_value)
+    print("Проверочный хеш H' =", verified_hash)
+
+    if verified_hash == hash_value:
+        print("ЭЦП подлинна ")
+    else:
+        print("ЭЦП не подлинна")
+
+if __name__ == "__main__":
+    main()
