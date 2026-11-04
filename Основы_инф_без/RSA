@@ -49,7 +49,7 @@ def main():
     print(f"p = {p}")
     print(f"q = {q}")
     print(f"n = p * q = {n}")
-    print(f"φ(n) = (p - 1)(q - 1) = {phi}")
+    print(f"phi(n) = (p - 1)(q - 1) = {phi}")
     print(f"d = {d}")
     print(f"e = {e}")
     print(f"Открытый ключ: ({e}, {n})")
