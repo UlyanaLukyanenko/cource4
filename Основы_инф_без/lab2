@@ -105,7 +105,6 @@ def xor(a, b):
 def pervyi_raund(L0, R0, X0):
 
     print("ГОСТ 28147-89")
-    print("=" * 55)
     summa = slozhenie_mod_2_32(R0, X0)
 
     print("\n1. Сложение R0 и X0 по модулю 2^32:")
@@ -130,6 +129,30 @@ def pervyi_raund(L0, R0, X0):
     print("R1: ", " ".join(rasdel_on_groups(R1)))
 
     return  R1
+
+def rasshifrovka(L1, R1, X0):
+    print("\nРасшифровка")
+    R0_vosst = L1
+    print("R0:", " ".join(rasdel_on_groups(R0_vosst)))
+    summa = slozhenie_mod_2_32(R0_vosst, X0)
+    zamena = podstanovka(summa)
+    sdvig = sdvig_vlevo_11(zamena)
+
+    print("\n2. f(R0, X0):")
+    print("Сумма R0+X0:    ", " ".join(rasdel_on_groups(summa)))
+    print("После подстан.: ", " ".join(rasdel_on_groups(zamena)))
+    print("После сдвига:   ", " ".join(rasdel_on_groups(sdvig)))
+
+    L0_vosst = xor(R1, sdvig)
+    print("\n3. L0 = R1 XOR f(R0, X0):")
+    print("R1:        ", " ".join(rasdel_on_groups(R1)))
+    print("f(R0,X0):  ", " ".join(rasdel_on_groups(sdvig)))
+    print("L0:        ", " ".join(rasdel_on_groups(L0_vosst)))
+
+    blok = L0_vosst + R0_vosst
+    print(" ".join(rasdel_on_groups(blok)))
+
+    return L0_vosst, R0_vosst
 
 
 def main():
@@ -173,4 +196,17 @@ def main():
     print("\nX0 (32 бита первого подключа):")
     print(" ".join(rasdel_on_groups(X0)))
 
-    pervyi_raund(L0, R0, X0)
+    R1 = pervyi_raund(L0, R0, X0)
+
+    L1 = R0
+    L0_vosst, R0_vosst = rasshifrovka(L1, R1, X0)
+
+    print("Исходный L0:        ", " ".join(rasdel_on_groups(L0)))
+    print("L0: ", " ".join(rasdel_on_groups(L0_vosst)))
+    print("Исходный R0:        ", " ".join(rasdel_on_groups(R0)))
+    print("R0: ", " ".join(rasdel_on_groups(R0_vosst)))
+    print("Совпадает:", L0_vosst == L0 and R0_vosst == R0)
+
+
+if __name__ == "__main__":
+    main()
