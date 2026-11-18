@@ -1,0 +1,166 @@
+import random
+
+pr_del = [2, 3, 5, 7, 11, 13, 17, 19]
+tests = 5
+bit= 21
+rng = random.SystemRandom()
+def generate_number():
+    p = rng.getrandbits(bit)
+    p = p | (1 << (bit - 1)) | 1
+    return p
+def small_prime_check(p):
+    for k in pr_del:
+        remainder = p % k
+        print(f"{p} mod {k} = {remainder}", end="\n")
+        if remainder == 0:
+            return False
+    print("Результат: число прошло предварительную проверку.")
+    return True
+def miller_rabin(p, test_number):
+    print(f"Тест Рабина-Миллера № {test_number}")
+    # p - 1=2^b * m
+    n = p - 1
+    m = n
+    b = 0
+    while m % 2 == 0:
+        m //= 2
+        b += 1
+    print(f"\np = {p}")
+    print(f"p - 1 = {n}")
+    print(f"Разложение: p - 1 = 2^{b} * {m}")
+    print(f"b = {b}")
+    print(f"m = {m}")
+    a = rng.randint(2, p - 2)
+    print(f"\nСлучайное основание a = {a}")
+    # z0 = a^m mod p
+
+    z = pow(a, m, p)
+    print("\nВычисление z0:")
+    print(f"z0 = {a}^{m} mod {p} = {z}")
+    if z == 1:
+        print("\nz0 = 1")
+        print("Условие выполнено.")
+        print("Число прошло данный тест.")
+        return True
+    if z == p - 1:
+        print(f"\nz0 = p - 1 = {p - 1}")
+        print("Условие выполнено.")
+        print("Число прошло данный тест.")
+        return True
+    print("\nПоследовательное возведение в квадрат:")
+
+    for j in range(1, b):
+        z = pow(z, 2, p)
+        print(f"z{j} = z{j-1}^2 mod p = {z}")
+        if z == p - 1:
+            print(f"\nz{j} = p - 1 = {p - 1}")
+            print("Число прошло данный тест.")
+            return True
+        if z == 1:
+            print("\nПолучено z = 1 до получения p - 1.")
+            print("Число составное.")
+            return False
+    print("\nУсловие z = p - 1 не выполнено.")
+    print("Число составное.")
+    return False
+def main():
+    print("\nГенерируем 21-битное число")
+    p = generate_number()
+    print(f"Двоичное число: {bin(p)[2:]}")
+    print(f"Десятичное число: {p}")
+    print(f"Количество бит: {p.bit_length()}")
+
+    print("\nПроверка на простые делители")
+
+    while True:
+        print("\nПроверяем число p =", p)
+        if small_prime_check(p):
+            break
+        print("\nЧисло не прошло проверку.")
+        print("Увеличиваем p на 2.")
+
+        p += 2
+
+        if p >= 2 ** bit:
+            print("\nДостигнута верхняя граница 21-битных чисел.")
+            print("Генерируем новое случайное число.")
+            p = generate_number()
+
+    print("Проверка пройдена")
+    print(f"Итоговое число p = {p}")
+    print(f"Двоичная запись: {bin(p)[2:]}")
+    print("\n Проверка Рабина-Миллера")
+    passed_tests = 0
+    for i in range(1, tests + 1):
+        result = miller_rabin(p, i)
+        if result:
+            passed_tests += 1
+            print(f"\nРезультат теста № {i}: пройден")
+
+        else:
+            print(f"\nРезультат теста № {i}: не пройден")
+            print("\n Число составное")
+
+            print("\nУвеличиваем p на 2")
+            p += 2
+
+            while True:
+                print("\nПроверяем кандидата p =", p)
+                if p >= 2 ** bit:
+                    p = generate_number()
+                    continue
+                if small_prime_check(p):
+                    break
+                p += 2
+            print("\nНовое число:", p)
+            passed_tests = 0
+            for j in range(1, tests + 1):
+                if miller_rabin(p, j):
+                    passed_tests += 1
+                    print(f"\nРезультат теста № {j}: Пройден")
+                else:
+                    print(f"\nРезультат теста № {j}: не пройден")
+                    break
+            while passed_tests != tests:
+                print("\nТесты не пройдены")
+                p += 2
+                while True:
+
+                    if p >= 2 ** bit:
+                        p = generate_number()
+                        continue
+                    if small_prime_check(p):
+                        break
+                    p += 2
+                print("\nНовое число:", p)
+                passed_tests = 0
+                for j in range(1, tests + 1):
+                    if miller_rabin(p, j):
+                        passed_tests += 1
+                        print(f"\nРезультат теста № {j}: пройден")
+                    else:
+                        print(f"\nРезультат теста № {j}: не пройден")
+                        break
+            break
+
+    if passed_tests == tests:
+        probability_composite = (1 / 4) ** tests
+        probability_prime = 1 - probability_composite
+        print("Итог:")
+        print(f"\nНайденное число p = {p}")
+        print(f"Двоичная запись: {bin(p)[2:]}")
+        print(f"\nКоличество пройденных тестов: {passed_tests} из {tests}")
+        print("\nЧИСЛО ВЕРОЯТНО ПРОСТОЕ!")
+        print("\nРасчёт вероятности:")
+        print(f"P(составное) <= (1/4)^{tests}")
+        print(f"P(составное) <= {probability_composite * 100:.6f}%")
+        print(f"\nP(простое) >= {probability_prime:.10f}")
+        print(f"P(простое) >= {probability_prime * 100:.6f}%")
+        print("\nВывод:")
+        print(
+            "Число прошло пять проверок Рабина — Миллера. "
+            "Вероятность того, что оно составное, "
+            "не превышает 0.1%."
+        )
+if __name__ == "__main__":
+    main()
